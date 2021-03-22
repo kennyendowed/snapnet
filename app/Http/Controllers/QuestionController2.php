@@ -170,4 +170,76 @@ class QuestionController2 extends Controller
         }
     }
     }
+
+    public function assignAssetsToGroup(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'group_id' => ['required', 'numeric'],
+            'assets_id' => ['required', 'numeric'],
+
+          ]);
+        if($validator->fails())
+        {
+    
+              return response()->json([
+              "code"  =>  '400',
+              "type"  => "invalid",
+              "message"  =>  "invalid_credentials",
+              "developerMessage"  => $validator->messages(),
+              ], 400);
+        }
+        else {
+         
+      $user=User::where('group_id', $request->get('group_id'))->first();
+      if($user){
+        $group=groups::where('id', $request->get('group_id'))->first();
+        User::where('group_id', $request->get('group_id'))->update([
+            "assets_id" =>$request->get('assets_id')
+   ]);
+          return response()->json(['message' => 'Assets Assign To all user in '.$group->name.' Successfully','code'=>Response::HTTP_CREATED],Response::HTTP_CREATED);
+
+    } 
+    else { 
+        return response()->json(['error' =>'Recored not found','code'=>Response::HTTP_UNPROCESSABLE_ENTITY],Response::HTTP_UNPROCESSABLE_ENTITY);
+
+
+        }
+    }
+    }
+
+    public function assignUserToGroup(Request $request)
+    {
+      $validator=Validator::make($request->all(), [
+        'group_id' => ['required', 'numeric'],
+        'user_id' => ['required', 'numeric'],
+
+      ]);
+    if($validator->fails())
+    {
+
+          return response()->json([
+          "code"  =>  '400',
+          "type"  => "invalid",
+          "message"  =>  "invalid_credentials",
+          "developerMessage"  => $validator->messages(),
+          ], 400);
+    }
+    else {
+     
+  $user=User::where('id', $request->get('user_id'))->first();
+  if($user){
+    $group=groups::where('id', $request->get('group_id'))->first();
+    User::where('id', $request->get('user_id'))->update([
+        "group_id" =>$request->get('group_id')
+]);
+      return response()->json(['message' => $user->name.' Assign To all user in '.$group->name.' Successfully','code'=>Response::HTTP_CREATED],Response::HTTP_CREATED);
+
+} 
+else { 
+    return response()->json(['error' =>'Recored not found','code'=>Response::HTTP_UNPROCESSABLE_ENTITY],Response::HTTP_UNPROCESSABLE_ENTITY);
+
+
+    }
+}
+    }
 }

@@ -39,6 +39,8 @@ Route::post('/signUp', 'QuestionController2@createAccount');
 Route::post('/group', 'QuestionController2@createGroup');
 Route::post('/create-assets', 'QuestionController2@createAssets');
 Route::post('/assign-user', 'QuestionController2@assignAssetsToUser');
+Route::post('/assign-assets-group', 'QuestionController2@assignAssetsToGroup');
+Route::post('/assign-user-group', 'QuestionController2@assignUserToGroup');
 
 
 
