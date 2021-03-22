@@ -95,7 +95,7 @@ class QuestionController2 extends Controller
     public function getAllindividuals()
     {
         $data['User']=User::all();
-       $data['assets']=assets::where('id', $data['User']->assets_id)->first();
+       //$data['assets']=assets::where('id', $data['User']->assets_id)->first();
         return response()->json(['data' =>$data,'code'=>Response::HTTP_OK],Response::HTTP_OK);
     }
 
